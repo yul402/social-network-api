@@ -8,14 +8,14 @@ const userSchema = new Schema(
         type: String,
         required:true,
         unique:true,
-        trim:ture,
+        trim:true,
       },
     email:
       {
         type: String,
         required:true,
         unique:true,
-        trim:ture,
+        trim:true,
         validate:
         {
           validator:function(email) {

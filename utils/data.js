@@ -58,7 +58,46 @@ const users = [
     'Apology video',
     'Submission for startup pitch',
     'Weather is crazy today',
-    'Bootcamp is hard'
+    'Bootcamp is hard',
+    'Today is a good day',
+    'Exploring this beautiful world'
   ];
 
-  console.log(names[0][1])
+
+const getRandomArrItem = (arr) => {
+    a = Math.floor(Math.random() * arr.length)
+    // console.log(a)
+    // console.log(users.length)
+    return arr[a]
+    // arr[Math.floor(Math.random() * arr.length)];
+}
+
+const getRandomUser = (int) => {
+    const results = [];
+    for (let i = 0; i < int; i++) {
+        let temp = getRandomArrItem(users)
+        results.push({
+            username: temp[0],
+            email: temp[1],
+        })}
+    return results
+}
+
+// To make sure thought have a registered usert, userResult comes from getRandomUser;
+// int in getRandomUser() and getRandomThought() should be the same
+const getRandomThought = (userResult,int) => {
+    const results = [];
+    for (let i = 0; i < int; i++) {
+        results.push({
+            username:userResult[i].username,
+            thoughtText: getRandomArrItem(thoughts),
+        })}
+    return results
+}
+
+module.exports = { getRandomUser, getRandomThought };
+
+  let user = getRandomUser(5)
+  let thought = getRandomThought(user,5)
+  console.log(user)
+  console.log(thought)

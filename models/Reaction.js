@@ -4,8 +4,8 @@ const { Schema, model } = require('mongoose');
 const reactionSchema = new Schema(
   {
     reactionId: {
-      type: Schema.ObjectId,
-      default: false,
+      type: Schema.Types.ObjectId,
+      default: () => new Types.ObjectId(),
     },
     reactionBody: {
       type: String,
@@ -38,6 +38,6 @@ const reactionSchema = new Schema(
 //   });
 
 // Initialize our Post model
-const Reaction = model('reaction', reactionSchema);
+// const Reaction = model('reaction', reactionSchema);
 
-module.exports = {Reaction,reactionSchema};
+module.exports = reactionSchema;
