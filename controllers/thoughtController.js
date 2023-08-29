@@ -1,71 +1,122 @@
-const { Course, Student } = require('../models');
+const { ObjectId } = require('mongoose').Types;
+const { User, Thought } = require('../models');
 
 module.exports = {
-  // Get all courses
-  async getCourses(req, res) {
+  // Get all students
+  async getThoughts(req, res) {
     try {
-      const courses = await Course.find();
-      res.json(courses);
-    } catch (err) {
-      res.status(500).json(err);
-    }
-  },
-  // Get a course
-  async getSingleCourse(req, res) {
-    try {
-      const course = await Course.findOne({ _id: req.params.courseId })
-        .select('-__v');
+      const thoughts = await Thought.find();
 
-      if (!course) {
-        return res.status(404).json({ message: 'No course with that ID' });
-      }
+      const thoughtsObj = {
+        thoughts,
+        // headCount: await headCount(),
+      };
 
-      res.json(course);
-    } catch (err) {
-      res.status(500).json(err);
-    }
-  },
-  // Create a course
-  async createCourse(req, res) {
-    try {
-      const course = await Course.create(req.body);
-      res.json(course);
+      res.json(thoughtsObj);
     } catch (err) {
       console.log(err);
       return res.status(500).json(err);
     }
   },
-  // Delete a course
-  async deleteCourse(req, res) {
+  // Get a single student
+  async getSingleThought(req, res) {
     try {
-      const course = await Course.findOneAndDelete({ _id: req.params.courseId });
+      const thought = await Thought.findOne({ _id: req.params.thoughtId })
+        .select('-__v');
 
-      if (!course) {
-        res.status(404).json({ message: 'No course with that ID' });
+      if (!thought) {
+        return res.status(404).json({ message: 'No student with that ID' })
       }
 
-      await Student.deleteMany({ _id: { $in: course.students } });
-      res.json({ message: 'Course and students deleted!' });
+      res.json({
+        thought,
+        // grade: await grade(req.params.studentId),
+      });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json(err);
+    }
+  },
+  // create a new student
+  async createThought(req, res) {
+    try {
+      const thought = await Thought.create(req.body);
+      res.json(thought);
     } catch (err) {
       res.status(500).json(err);
     }
   },
-  // Update a course
-  async updateCourse(req, res) {
+  // Delete a student and remove them from the course
+  async deleteThought(req, res) {
     try {
-      const course = await Course.findOneAndUpdate(
-        { _id: req.params.courseId },
-        { $set: req.body },
+      const thought = await Thought.findOneAndRemove({ _id: req.params.thoughtId });
+
+      if (!thought) {
+        return res.status(404).json({ message: 'No such student exists' });
+      }
+
+      // Delete that thought for users
+      const userThought = await User.findOneAndUpdate(
+        { thoughts: req.params.thoughtId },
+        { $pull: { thoughts: req.params.thoughtId } },
+        { new: true }
+      );
+
+      if (!userThought) {
+        return res.status(404).json({
+          message: 'Thought deleted, but no user have that thought',
+        });
+      }
+
+      res.json({ message: 'Thought successfully deleted' });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
+  },
+
+  // Add a reaction to a student
+  async addReaction(req, res) {
+    console.log('You are adding a reaction');
+    console.log(req.body);
+
+    try {
+      const thought = await Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        { $addToSet: { assignments: req.body } },
         { runValidators: true, new: true }
       );
 
-      if (!course) {
-        res.status(404).json({ message: 'No course with this id!' });
+      if (!thought) {
+        return res
+          .status(404)
+          .json({ message: 'No thought found with that ID :(' });
       }
 
-      res.json(course);
+      res.json(thought);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+  // Remove reaction from a thought
+  async removeReaction(req, res) {
+    try {
+      const thought = await Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        { $pull: { reactions: { reactionId: req.params.thoughtId } } },
+        { runValidators: true, new: true }
+      );
+
+      if (!thought) {
+        return res
+          .status(404)
+          .json({ message: 'No thought found with that ID :(' });
+      }
+
+      res.json(thought);
     } catch (err) {
       res.status(500).json(err);
     }
   },
 };
+
