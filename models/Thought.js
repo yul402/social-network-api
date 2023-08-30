@@ -22,12 +22,12 @@ const thoughtSchema = new Schema(
       },
     reactions:[reactionSchema]
   },
-  // {
-  //   toJSON: {
-  //     virtuals: true,
-  //   },
-  //   id: false,
-  // }
+  {
+    toJSON: {
+      virtuals: true,
+    },
+    id: false,
+  }
 );
 
 // Create a virtual property `upvoteCount` that gets the amount of comments per user
@@ -39,6 +39,6 @@ const thoughtSchema = new Schema(
 //   });
 
 // Initialize our Post model
-const Thoughts = model('thoughts', thoughtSchema);
+const Thought = model('thought', thoughtSchema);
 
-module.exports = Thoughts;
+module.exports = Thought;

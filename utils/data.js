@@ -65,11 +65,7 @@ const users = [
 
 
 const getRandomArrItem = (arr) => {
-    a = Math.floor(Math.random() * arr.length)
-    // console.log(a)
-    // console.log(users.length)
-    return arr[a]
-    // arr[Math.floor(Math.random() * arr.length)];
+    return arr[Math.floor(Math.random() * arr.length)];
 }
 
 const getRandomUser = (int) => {
@@ -97,7 +93,7 @@ const getRandomThought = (userResult,int) => {
 
 module.exports = { getRandomUser, getRandomThought };
 
-  let user = getRandomUser(5)
-  let thought = getRandomThought(user,5)
-  console.log(user)
-  console.log(thought)
+//   let user = getRandomUser(5)
+//   let thought = getRandomThought(user,5)
+//   console.log(user)
+//   console.log(thought)
