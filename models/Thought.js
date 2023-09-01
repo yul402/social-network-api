@@ -14,6 +14,9 @@ const thoughtSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
+      // get: (date)=> {
+
+      // }
     },
     username:
       {
@@ -30,13 +33,14 @@ const thoughtSchema = new Schema(
   }
 );
 
-// Create a virtual property `upvoteCount` that gets the amount of comments per user
-// thoughtSchema
-//   .virtual('timestamp')
-//   // Getter
-//   .get(function () {
-//     return this.meta.upvotes;
-//   });
+
+
+  thoughtSchema
+  .virtual('reactionCount')
+  // Getter
+  .get(function () {
+    return this.reactions.length;
+  });
 
 // Initialize our Post model
 const Thought = model('thought', thoughtSchema);
