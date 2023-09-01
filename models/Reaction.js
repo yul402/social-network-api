@@ -19,32 +19,24 @@ const reactionSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
+      get: (date)=> {
+        const dateNew = new Date(date)
+        const month = dateNew.getMonth() + 1;
+        const day = dateNew.getDate();
+        const hour = dateNew.getHours();
+        const min = dateNew.getMinutes();
+        const sec = dateNew.getSeconds();
+        var dateFormatted = dateNew.getFullYear() + "-" + month + "-" + day + "_" +  hour + ":" + min + ":" + sec;
+        return dateFormatted;
+      },
     },
   },
   {
     toJSON: {
-      virtuals: true,
+      getters: true,
     },
     id: false,
   }
 );
-
-// Create a virtual property `upvoteCount` that gets the amount of comments per user
-reactionSchema
-  .virtual('timestamp')
-  // Getter
-  .get(function () {
-    const date = new Date(this.createdAt)
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const hour = date.getHours();
-    const min = date.getMinutes();
-    const sec = date.getSeconds();
-    var str = date.getFullYear() + "-" + month + "-" + day + "_" +  hour + ":" + min + ":" + sec;
-    return str;
-  });
-
-// Initialize our Post model
-// const Reaction = model('reaction', reactionSchema);
 
 module.exports = reactionSchema;

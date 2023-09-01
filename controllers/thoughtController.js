@@ -2,12 +2,10 @@ const { ObjectId } = require('mongoose').Types;
 const { User, Thought } = require('../models');
 
 module.exports = {
-  // Get all students
+  // Get all thoughts
   async getThoughts(req, res) {
     try {
       const thoughts = await Thought.find();
-
-
 
       res.json(thoughts);
     } catch (err) {
@@ -15,7 +13,7 @@ module.exports = {
       return res.status(500).json(err);
     }
   },
-  // Get a single student
+  // Get a single thought
   async getSingleThought(req, res) {
     try {
       const thought = await Thought.findOne({ _id: req.params.thoughtId })
@@ -25,10 +23,7 @@ module.exports = {
         return res.status(404).json({ message: 'No student with that ID' })
       }
 
-      res.json({
-        thought,
-        // grade: await grade(req.params.studentId),
-      });
+      res.json(thought);
     } catch (err) {
       console.log(err);
       return res.status(500).json(err);
@@ -52,7 +47,7 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  // create a new student
+  // create a new thought
   async createThought(req, res) {
     try {
       const thought = await Thought.create(req.body);
@@ -68,7 +63,7 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  // Delete a student and remove them from the course
+  // Delete a thought and remove them from the user
   async deleteThought(req, res) {
     try {
       const thought = await Thought.findOneAndRemove({ _id: req.params.thoughtId });
@@ -99,8 +94,6 @@ module.exports = {
 
   // Add a reaction to a student
   async addReaction(req, res) {
-
-
     try {
       const thought = await Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },

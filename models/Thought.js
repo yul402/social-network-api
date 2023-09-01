@@ -14,9 +14,16 @@ const thoughtSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
-      // get: (date)=> {
-
-      // }
+      get: (date)=> {
+        const dateNew = new Date(date)
+        const month = dateNew.getMonth() + 1;
+        const day = dateNew.getDate();
+        const hour = dateNew.getHours();
+        const min = dateNew.getMinutes();
+        const sec = dateNew.getSeconds();
+        var dateFormatted = dateNew.getFullYear() + "-" + month + "-" + day + "_" +  hour + ":" + min + ":" + sec;
+        return dateFormatted;
+      }
     },
     username:
       {
@@ -28,6 +35,7 @@ const thoughtSchema = new Schema(
   {
     toJSON: {
       virtuals: true,
+      getters: true,
     },
     id: false,
   }
