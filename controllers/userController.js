@@ -41,7 +41,7 @@ module.exports = {
         );
   
         if (!user) {
-          res.status(404).json({ message: 'No course with this id!' });
+          res.status(404).json({ message: 'No user with this id!' });
         }
   
         res.json(user);
@@ -64,7 +64,7 @@ module.exports = {
       const user = await User.findOneAndRemove({ _id: req.params.userId });
 
       if (!user) {
-        return res.status(404).json({ message: 'No such student exists' });
+        return res.status(404).json({ message: 'No such user exists' });
       }
 
    

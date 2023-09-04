@@ -48,7 +48,7 @@ const userSchema = new Schema(
   }
 );
 
-// Create a virtual property `fullName` that gets and sets the user's full name
+// Create a virtual property `friendCount` that gets and sets the user's friend count
 userSchema
   .virtual('friendCount')
   // Getter
@@ -56,7 +56,7 @@ userSchema
     return this.friends.length;
   })
 
-// Initialize our User model
+// Initialize "User" model
 const User = model('user', userSchema);
 
 module.exports = User;

@@ -20,7 +20,7 @@ module.exports = {
         .select('-__v');
 
       if (!thought) {
-        return res.status(404).json({ message: 'No student with that ID' })
+        return res.status(404).json({ message: 'No thought with that ID' })
       }
 
       res.json(thought);
@@ -39,7 +39,7 @@ module.exports = {
       );
 
       if (!thought) {
-        res.status(404).json({ message: 'No course with this id!' });
+        res.status(404).json({ message: 'No thought with this id!' });
       }
 
       res.json(thought);
@@ -69,7 +69,7 @@ module.exports = {
       const thought = await Thought.findOneAndRemove({ _id: req.params.thoughtId });
 
       if (!thought) {
-        return res.status(404).json({ message: 'No such student exists' });
+        return res.status(404).json({ message: 'No such thought exists' });
       }
 
       // Delete that thought for users

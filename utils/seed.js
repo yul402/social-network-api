@@ -1,6 +1,6 @@
 const connection = require('../config/connection');
 const { User, Thought } = require('../models');
-const { getRandomUser, getRandomThought } = require('./data');
+const { getRandomUser } = require('./data');
 
 connection.on('error', (err) => err);
 
@@ -22,18 +22,16 @@ connection.once('open', async () => {
       console.log('droped')
     }
 
-  // Add students to the collection and await the results
-  let randomUser = getRandomUser(10)
-  await User.collection.insertMany(randomUser);
+  // Get 5 record seeded into database
+  const count = 5
 
-  // Add thoughts to the collection and await the results
-  let thoughts = getRandomThought(randomUser,10)
-  await Thought.collection.insertMany(thoughts);
+  // Add students to the collection and await the results
+  let randomUser = getRandomUser(count)
+  await User.collection.insertMany(randomUser);
 
 
   // Log out the seed data to indicate what should appear in the database
   console.table(randomUser);
-  console.table(thoughts);
   console.info('Seeding complete! 🌱');
   process.exit(0);
 });

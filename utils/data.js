@@ -77,30 +77,7 @@ const getRandomUser = (int) => {
             email: temp[1],
         })}
     return results
-    // while (results.length < int) {
-    //     let temp = getRandomArrItem(users)
-    //     results.push({
-    //         username: temp[0],
-    //         email: temp[1],
-    //     })}
-    // return results.username
 }
 
-// To make sure thought have a registered usert, userResult comes from getRandomUser;
-// int in getRandomUser() and getRandomThought() should be the same
-const getRandomThought = (userResult,int) => {
-    const results = [];
-    for (let i = 0; i < int; i++) {
-        results.push({
-            username:userResult[i].username,
-            thoughtText: getRandomArrItem(thoughts),
-        })}
-    return results
-}
 
-module.exports = { getRandomUser, getRandomThought };
-
-  let user = getRandomUser(5)
-  let thought = getRandomThought(user,5)
-  console.log(user)
-  console.log(thought)
+module.exports = { getRandomUser };
